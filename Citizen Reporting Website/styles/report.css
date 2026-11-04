@@ -1,0 +1,333 @@
+/* The short report heading sits above the form as its own viewport-height section. */
+.report-hero {
+  position: relative;
+  min-height: 25svh;
+  isolation: isolate;
+  padding-block: 2rem;
+  background-color: #293c35;
+  background-image: var(--hero-image);
+  background-position: center 48%;
+  background-size: cover;
+  color: #fff;
+}
+
+.report-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(15 29 25 / 82%), rgb(15 29 25 / 56%) 55%, rgb(15 29 25 / 20%));
+  content: "";
+}
+
+.report-eyebrow {
+  color: var(--green);
+  font-size: 0.75rem;
+}
+
+.report-hero-title,
+.report-form-title {
+  color: var(--ink);
+  font-family: var(--display-font);
+}
+
+.report-hero-title {
+  color: #fff;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.08;
+}
+
+.report-hero-copy {
+  max-width: 620px;
+  color: rgb(255 255 255 / 86%);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.report-form-intro {
+  max-width: 720px;
+}
+
+.report-form-title {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.report-form {
+  max-width: 900px;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid #e0e5dc;
+  border-radius: 4px;
+}
+
+.report-form .form-label,
+.location-fieldset legend,
+.privacy-agreement legend {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.report-form .form-control,
+.report-form .form-select {
+  min-height: 48px;
+}
+
+.report-form textarea.form-control {
+  min-height: 120px;
+}
+
+.location-mode .btn {
+  min-height: 44px;
+}
+
+.report-submit {
+  min-height: 48px;
+  padding-inline: 1.25rem;
+}
+
+.report-form-status {
+  color: #314128;
+}
+
+@media (max-width: 575.98px) {
+  .location-mode {
+    display: flex;
+    width: 100%;
+  }
+
+  .location-mode .btn {
+    flex: 1;
+    padding-inline: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Report page background */
+.report-form-section {
+  background: #f7f7f2;
+}
+
+/* Workflow steps */
+.report-workflow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #e0e5dc;
+  border-radius: 12px;
+  background: white;
+}
+
+.workflow-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #68736c;
+}
+
+.workflow-step.is-current {
+  color: #293c35;
+}
+
+.workflow-number {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #cbd4ca;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.is-current .workflow-number {
+  color: white;
+  background: #293c35;
+}
+
+/* Workflow connector */
+.workflow-connector {
+  height: 1px;
+  flex: 1;
+  background: #dfe5dc;
+}
+
+/* Safety reminder */
+.report-safety-note {
+  display: flex;
+  gap: 1rem;
+  max-width: 900px;
+  padding: 1rem;
+  border: 1px solid #dce6d9;
+  border-radius: 12px;
+  background: #eef4eb;
+  color: #293c35;
+}
+
+.safety-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #dce9d6;
+  font-weight: bold;
+}
+
+/* Form container */
+.report-form {
+  max-width: 900px;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid #e0e5dc;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 12px 36px rgb(30 45 35 / 5%);
+}
+
+/* Form section headings */
+.form-section-heading {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #edf0e9;
+}
+
+.form-section-heading h3 {
+  margin: 0.25rem 0;
+  color: #293c35;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.form-section-heading p {
+  margin: 0;
+  color: #737d75;
+  font-size: 0.9rem;
+}
+
+.section-kicker {
+  color: #71836e;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+}
+
+.optional-tag {
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  background: #f0f2ed;
+  color: #68736c;
+  font-size: 0.7rem;
+}
+
+/* Input styling */
+.report-form .form-control,
+.report-form .form-select {
+  min-height: 48px;
+  border-color: #d9dfd7;
+  border-radius: 8px;
+}
+
+.report-form textarea.form-control {
+  min-height: 120px;
+}
+
+.report-form .form-control:focus,
+.report-form .form-select:focus {
+  border-color: #6f8a70;
+  box-shadow: 0 0 0 0.2rem rgb(111 138 112 / 18%);
+}
+
+/* Character counter */
+.character-count {
+  color: #778078;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.character-count.text-warning {
+  color: #9a5a13;
+  font-weight: bold;
+}
+
+/* Submit button */
+.report-submit {
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background: #293c35;
+  border-color: #293c35;
+  font-weight: bold;
+}
+
+.report-submit:hover {
+  background: #40594c;
+  border-color: #40594c;
+}
+
+/* Accessibility */
+.report-form :focus-visible {
+  outline: 3px solid #8ba98a;
+  outline-offset: 3px;
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+
+  .report-workflow {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .workflow-step {
+    gap: 0.4rem;
+  }
+
+  .workflow-step strong {
+    font-size: 0.75rem;
+  }
+
+  .workflow-connector {
+    min-width: 6px;
+  }
+
+  .workflow-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+}
+
+@media (max-width: 575px) {
+
+  .report-form {
+    padding: 1rem;
+  }
+
+  .report-workflow {
+    align-items: flex-start;
+  }
+
+  .workflow-step strong {
+    font-size: 0.65rem;
+  }
+
+  .workflow-number {
+    width: 25px;
+    height: 25px;
+  }
+
+  .location-mode {
+    display: flex;
+    width: 100%;
+  }
+
+  .location-mode .btn {
+    flex: 1;
+    font-size: 0.8rem;
+  }
+
+  .report-safety-note {
+    padding: 0.75rem;
+  }
+
+}

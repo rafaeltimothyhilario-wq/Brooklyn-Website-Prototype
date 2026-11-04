@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Submit a Report | Suri</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/report.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top"
+         style="background-color: #293c35;">
+
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="index.html">
+                SURI
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu"
+                    aria-controls="navbarMenu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="report.html">
+                            Submit a Report
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="track.html">
+                            Track Report
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="report-hero">
+
+        <div class="container">
+
+            <p class="report-eyebrow text-uppercase fw-bold">
+                Citizen Reporting
+            </p>
+
+            <h1 class="report-hero-title">
+                Report suspicious activity.
+            </h1>
+
+            <p class="report-hero-copy">
+                Help protect your community by reporting suspicious
+                messages, online scams, and fraudulent activities.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Report Form -->
+    <main class="report-form-section py-5">
+
+        <div class="container">
+
+            <!-- Workflow -->
+            <div class="report-workflow">
+
+                <div class="workflow-step is-current">
+                    <span class="workflow-number">1</span>
+                    <strong>Report Details</strong>
+                </div>
+
+                <div class="workflow-connector"></div>
+
+                <div class="workflow-step">
+                    <span class="workflow-number">2</span>
+                    <strong>Evidence</strong>
+                </div>
+
+                <div class="workflow-connector"></div>
+
+                <div class="workflow-step">
+                    <span class="workflow-number">3</span>
+                    <strong>Location</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Safety Reminder -->
+            <div class="report-safety-note mb-4">
+
+                <div class="safety-icon">!</div>
+
+                <div>
+                    <strong>Protect your personal information</strong>
+
+                    <p class="mb-0">
+                        Never include passwords, PINs, or one-time
+                        verification codes in your report.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Form Introduction -->
+            <div class="report-form-intro mb-4">
+
+                <h2 class="report-form-title">
+                    Submit a Report
+                </h2>
+
+                <p class="text-secondary">
+                    Provide accurate information to help reviewers
+                    understand and assess the incident.
+                </p>
+
+            </div>
+
+
+            <form id="report-form"
+                  class="report-form bg-white"
+                  novalidate>
+
+                <div class="row g-4">
+
+
+                    <!-- STEP 1 -->
+                    <div class="col-12">
+
+                        <div class="form-section-heading">
+
+                            <span class="section-kicker">STEP 01</span>
+
+                            <h3>Incident Details</h3>
+
+                            <p>
+                                Tell us what happened.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Category -->
+                    <div class="col-12">
+
+                        <label class="form-label" for="category">
+                            Incident Category *
+                        </label>
+
+                        <select class="form-select"
+                                id="category"
+                                name="category"
+                                required>
+
+                            <option value="">Select a category</option>
+
+                            <option value="SMS Scam">
+                                SMS Scam
+                            </option>
+
+                            <option value="Online Shopping Scam">
+                                Online Shopping Scam
+                            </option>
+
+                            <option value="Phishing">
+                                Phishing
+                            </option>
+
+                            <option value="Investment Scam">
+                                Investment Scam
+                            </option>
+
+                            <option value="Fraudulent Call">
+                                Fraudulent Call
+                            </option>
+
+                            <option value="Other">
+                                Other / Unsure
+                            </option>
+
+                        </select>
+
+                        <div class="invalid-feedback">
+                            Please select an incident category.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Description -->
+                    <div class="col-12">
+
+                        <label class="form-label"
+                               for="incident-description">
+
+                            Incident Description *
+
+                        </label>
+
+                        <textarea class="form-control"
+                                  id="incident-description"
+                                  name="description"
+                                  rows="4"
+                                  minlength="20"
+                                  maxlength="1200"
+                                  placeholder="Describe what happened..."
+                                  required></textarea>
+
+                        <div class="d-flex justify-content-between gap-2 form-text">
+
+                            <span>
+                                At least 20 characters. Do not include passwords.
+                            </span>
+
+                            <span class="character-count"
+                                  data-count-for="incident-description"
+                                  aria-live="polite">
+                                0 / 1200
+                            </span>
+
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please provide a description of at least 20 characters.
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 2 -->
+                    <div class="col-12">
+
+                        <div class="form-section-heading compact">
+
+                            <span class="section-kicker">STEP 02</span>
+
+                            <h3>
+                                Evidence
+                                <span class="optional-tag">Optional</span>
+                            </h3>
+
+                            <p>
+                                Provide additional information if available.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Suspicious Message -->
+                    <div class="col-12">
+
+                        <label class="form-label"
+                               for="suspicious-text">
+
+                            Suspicious Message or Link
+
+                        </label>
+
+                        <textarea class="form-control"
+                                  id="suspicious-text"
+                                  name="suspicious-text"
+                                  rows="3"
+                                  maxlength="2000"
+                                  placeholder="Paste the suspicious message or link..."></textarea>
+
+                        <div class="d-flex justify-content-between gap-2 form-text">
+
+                            <span>
+                                Optional
+                            </span>
+
+                            <span class="character-count"
+                                  data-count-for="suspicious-text"
+                                  aria-live="polite">
+                                0 / 2000
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Screenshot -->
+                    <div class="col-12">
+
+                        <label class="form-label"
+                               for="report-screenshot">
+
+                            Upload Screenshot
+
+                        </label>
+
+                        <input class="form-control"
+                               type="file"
+                               id="report-screenshot"
+                               name="screenshot"
+                               accept="image/png,image/jpeg,image/webp">
+
+                        <div class="form-text">
+                            PNG, JPG, or WebP. Maximum file size: 10 MB.
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please select a supported image under 10 MB.
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 3 -->
+                    <div class="col-12">
+
+                        <div class="form-section-heading compact">
+
+                            <span class="section-kicker">STEP 03</span>
+
+                            <h3>Source and Location</h3>
+
+                            <p>
+                                Tell us where the suspicious activity occurred.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Sender -->
+                    <div class="col-md-6">
+
+                        <label class="form-label" for="sender">
+                            Sender *
+                        </label>
+
+                        <input class="form-control"
+                               type="text"
+                               id="sender"
+                               name="sender"
+                               placeholder="Phone number or sender name"
+                               required>
+
+                        <div class="invalid-feedback">
+                            Please provide the sender's information.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Date -->
+                    <div class="col-md-6">
+
+                        <label class="form-label" for="date-received">
+                            Date Received *
+                        </label>
+
+                        <input class="form-control"
+                               type="date"
+                               id="date-received"
+                               name="date-received"
+                               required>
+
+                        <div class="invalid-feedback">
+                            Please select a valid date.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="col-12">
+
+                        <label class="form-label" for="email-address">
+                            Email Address *
+                        </label>
+
+                        <input class="form-control"
+                               type="email"
+                               id="email-address"
+                               name="email"
+                               placeholder="you@example.com"
+                               required>
+
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Location -->
+                    <div class="col-12">
+
+                        <fieldset class="location-fieldset">
+
+                            <legend class="form-label">
+                                Incident Location *
+                            </legend>
+
+                            <div class="btn-group location-mode mb-3"
+                                 role="group">
+
+                                <input class="btn-check"
+                                       type="radio"
+                                       id="location-mode-text"
+                                       name="location-mode"
+                                       value="text"
+                                       checked>
+
+                                <label class="btn btn-outline-secondary"
+                                       for="location-mode-text">
+
+                                    Describe an Area
+
+                                </label>
+
+
+                                <input class="btn-check"
+                                       type="radio"
+                                       id="location-mode-map"
+                                       name="location-mode"
+                                       value="map">
+
+                                <label class="btn btn-outline-secondary"
+                                       for="location-mode-map">
+
+                                    Google Maps Pin
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- Text Location -->
+                            <div id="location-text-panel">
+
+                                <label class="visually-hidden"
+                                       for="location-text">
+
+                                    Area or City
+
+                                </label>
+
+                                <input class="form-control"
+                                       type="text"
+                                       id="location-text"
+                                       name="location-text"
+                                       placeholder="Area, city, or nearby landmark"
+                                       required>
+
+                                <div class="invalid-feedback">
+                                    Please enter an approximate location.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Map Location -->
+                            <div id="location-map-panel" hidden>
+
+                                <p class="form-text">
+                                    Paste a Google Maps link or coordinates.
+                                </p>
+
+                                <a class="btn btn-outline-secondary btn-sm mb-3"
+                                   href="https://www.google.com/maps"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+
+                                    Open Google Maps ↗
+
+                                </a>
+
+                                <input class="form-control"
+                                       type="text"
+                                       id="location-map"
+                                       name="location-map"
+                                       placeholder="14.5995, 120.9842"
+                                       disabled>
+
+                                <div class="invalid-feedback">
+                                    Enter a valid Google Maps link or coordinates.
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+
+
+                    <!-- Consent -->
+                    <div class="col-12">
+
+                        <fieldset class="privacy-agreement">
+
+                            <legend class="form-label">
+                                Before You Submit
+                            </legend>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="privacy-consent"
+                                       name="privacy-consent"
+                                       required>
+
+                                <label class="form-check-label"
+                                       for="privacy-consent">
+
+                                    I understand that this is a demonstration
+                                    website. My report is stored locally in
+                                    this browser and is not sent to an agency.
+
+                                </label>
+
+                                <div class="invalid-feedback">
+                                    Please acknowledge the demonstration notice.
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+
+
+                    <!-- Submit -->
+                    <div class="col-12">
+
+                        <button class="btn btn-primary report-submit"
+                                type="submit">
+
+                            Submit Report →
+
+                        </button>
+
+                        <p class="report-form-status small mt-3"
+                           id="report-form-status"
+                           role="status"
+                           aria-live="polite"
+                           hidden></p>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="site-footer py-4">
+
+        <div class="container">
+
+            <p class="mb-0">
+                © 2026 Suri | Citizen Reporting Website
+            </p>
+
+            <p class="small mb-0">
+                Web Development Prototype — Demonstration Only
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="scripts/menu.js"></script>
+    <script src="scripts/report.js"></script>
+
+</body>
+</html>
