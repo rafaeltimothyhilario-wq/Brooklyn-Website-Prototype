@@ -1,243 +1,417 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f7f2">
-    <meta name="description" content="A community space to check suspicious links and messages before they spread." >
-    <title>Suri | Scam ba 'to?</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Report | Home</title>
 
-    <!-- Bootstrap supplies the responsive layout and common interface styles. -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- A display font paired with a readable body font gives the page its own voice. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/menu.css">
-    <link rel="stylesheet" href="styles/hero.css">
-    <link rel="stylesheet" href="styles/report-lookup.css">
-    <link rel="stylesheet" href="styles/scams.css">
-    <link rel="stylesheet" href="styles/how-it-works.css">
-    <link rel="stylesheet" href="styles/volunteer.css">
-    <link rel="stylesheet" href="styles/agencies.css">
-    <link rel="stylesheet" href="styles/footer.css">
-    <script src="scripts/hero.js" defer></script>
-    <script src="scripts/menu.js" defer></script>
-    <script src="scripts/report-lookup.js" defer></script>
-    <script src="scripts/volunteer.js" defer></script>
-  </head>
-  <body>
-    <!-- A sticky header keeps the main actions close while the page is in view. -->
-    <header class="navbar navbar-expand-md sticky-top bg-light px-3 px-lg-5">
-      <div class="container-fluid">
-      <a class="navbar-brand d-flex align-items-center gap-2 mb-0" href="#home" aria-label="Suri home">
-        <span class="brand-mark" aria-hidden="true">s</span>
-        <span class="brand-name fs-4 fw-bold">suri<span class="brand-period">.</span></span>
-      </a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-      <button class="navbar-toggler" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-navigation">
-        <span class="navbar-toggler-icon" aria-hidden="true"></span>
-      </button>
+    <style>
+        :root {
+            --ink: #171717;
+            --muted: #555;
+            --border: #d5d5d5;
+            --soft: #f7f7f7;
+            --peach: #fff0e9;
+        }
 
-      <nav class="collapse navbar-collapse justify-content-md-end" id="site-navigation" aria-label="Main navigation">
-        <div class="navbar-nav align-items-md-center gap-md-5">
-          <a class="nav-link active" href="#home" aria-current="page">Home</a>
-          <a class="nav-link" href="#how-it-works">About</a>
-          <a class="nav-link" href="#volunteer">Volunteer</a>
-          <a class="btn btn-outline-dark ms-md-2" href="report.html">Report <span aria-hidden="true">↗</span></a>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: #fff;
+            line-height: 1.45;
+        }
+
+        .site-header {
+            background: #fff;
+            border: 1px solid #d6d6d6;
+            border-radius: 13px;
+            margin: 10px 10px 0;
+            min-height: 58px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--ink);
+        }
+
+        .navbar-brand:hover { color: var(--ink); }
+
+        .navbar-nav { gap: 22px; }
+
+        .nav-link {
+            color: #111;
+            font-weight: 600;
+            font-size: .9rem;
+            padding: 18px 3px 13px !important;
+        }
+
+        .nav-link.active {
+            border-bottom: 3px solid #111;
+        }
+
+        .home-hero {
+            margin: 12px 10px 0;
+            padding: 24px 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 5px 14px rgba(0,0,0,.07);
+        }
+
+        .hero-copy { padding: 0 0 0 0; }
+
+        .hero-title {
+            font-size: clamp(1.65rem, 3vw, 2.25rem);
+            font-weight: 800;
+            line-height: 1.12;
+            margin: 0 0 12px;
+            max-width: 520px;
+        }
+
+        .hero-description {
+            max-width: 490px;
+            font-size: 1rem;
+            margin-bottom: 17px;
+        }
+
+        .btn-report {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 10px 27px;
+            font-weight: 700;
+            min-width: 195px;
+        }
+
+        .btn-report:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        .hero-image {
+            min-height: 205px;
+            max-width: 250px;
+            margin: auto;
+            border: 9px solid #aaa;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 7rem;
+        }
+
+        .section-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin: 0 0 12px;
+        }
+
+        .common-section { margin: 16px 10px 0; }
+
+        .issue-card {
+            border: 1px solid #777;
+            border-radius: 11px;
+            min-height: 126px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #111;
+            text-decoration: none;
+            background: #fff;
+            gap: 7px;
+            font-weight: 700;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .issue-card:hover {
+            color: #111;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        }
+
+        .issue-card i { font-size: 2.2rem; line-height: 1; }
+        .issue-label { font-size: .91rem; line-height: 1.25; }
+
+        .help-card {
+            height: 100%;
+            min-height: 210px;
+            padding: 20px 14px;
+            background: var(--peach);
+            border: 1px solid #ead4ca;
+            border-radius: 11px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .help-card h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .help-card p { font-size: .88rem; margin-bottom: 15px; }
+
+        .btn-dark-custom {
+            background: #111;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 700;
+            padding: 9px 12px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .btn-dark-custom:hover { background: #333; color: #fff; }
+
+        .how-section { margin: 18px 10px 28px; }
+
+        .step-card {
+            border: 1px solid #ddd;
+            border-radius: 11px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            text-align: center;
+            padding: 16px 10px 13px;
+            height: 100%;
+            position: relative;
+            background: #fff;
+        }
+
+        .step-number {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            color: #fff;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: -31px auto 7px;
+            position: relative;
+        }
+
+        .step-card h3 {
+            font-size: .95rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .step-card p { font-size: .83rem; margin: 0; color: #444; }
+
+        footer {
+            padding: 18px 10px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .site-header { margin: 8px 8px 0; }
+            .navbar { padding: 9px 12px; }
+            .navbar-brand { font-size: 1.1rem; }
+            .navbar-toggler { border: 0; padding: 2px; }
+            .navbar-toggler:focus { box-shadow: none; }
+            .home-hero { margin: 0; padding: 18px 14px 20px; border: 0; box-shadow: none; }
+            .hero-title { font-size: 1.65rem; line-height: 1.12; margin-bottom: 9px; }
+            .hero-description { font-size: .9rem; line-height: 1.35; margin-bottom: 14px; }
+            .btn-report { width: 100%; padding: 9px 12px; }
+            .hero-image { display: none; }
+            .section-title { font-size: 1.15rem; margin-bottom: 8px; }
+            .common-section { margin: 8px 8px 0; }
+            .issue-card {
+                min-height: 37px;
+                height: auto;
+                border-radius: 7px;
+                padding: 6px 8px;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 12px;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .issue-card i { font-size: 1.35rem; width: 32px; text-align: center; }
+            .issue-label { font-size: .82rem; }
+            .help-card {
+                min-height: 0;
+                margin-top: 8px;
+                padding: 10px 12px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+            }
+            .help-card h3 { font-size: .95rem; margin: 0; text-align: left; white-space: nowrap; }
+            .help-card p { font-size: .75rem; margin: 0; flex: 1; }
+            .help-card .btn-dark-custom { font-size: .75rem; white-space: nowrap; padding: 7px 10px; }
+            .how-section { margin: 10px 8px 18px; }
+            .how-section .section-title { margin-bottom: 5px; }
+            .step-card {
+                border: 0;
+                box-shadow: none;
+                text-align: left;
+                padding: 3px 0;
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                height: auto;
+            }
+            .step-number {
+                flex: 0 0 20px;
+                width: 20px;
+                height: 20px;
+                font-size: .8rem;
+                margin: 0;
+            }
+            .step-card h3 { font-size: .78rem; margin: 0; }
+            .step-card p { display: none; }
+            footer { padding: 14px 8px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg site-header sticky-top">
+        <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand" href="index.html">Barangay Report</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="track.html">Track Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
         </div>
-      </nav>
-      </div>
-    </header>
+    </nav>
 
-    <main>
-      <!-- The hero fills the space below the header and uses a photo selected in scripts/hero.js. -->
-      <section class="hero d-flex align-items-center position-relative overflow-hidden" id="home" aria-labelledby="hero-title">
-        <div class="container position-relative">
-          <div class="row g-5 align-items-center">
-            <div class="col-lg-8 hero-content">
-              <p class="hero-eyebrow d-flex align-items-center gap-2 fw-bold mb-3"><span class="eyebrow-dot" aria-hidden="true"></span> Scam ba 'to?</p>
-              <h1 class="hero-title fw-semibold mb-0" id="hero-title">May kahina-hinala?<br><span>Ipa-suri natin.</span></h1>
-              <p class="hero-description lead my-4">A suspicious link or message can reach anyone. Share it with the community and help everyone stay one step ahead.</p>
-              <a class="btn btn-primary d-inline-flex align-items-center gap-4" href="report.html">Report something suspicious <span aria-hidden="true">↗</span></a>
-              <p class="hero-note small mt-4 mb-0"><span aria-hidden="true">✳</span> Check first. Share smarter.</p>
+    <!-- Hero -->
+    <section class="home-hero">
+        <div class="container-fluid px-0 px-md-2">
+            <div class="row align-items-center g-4">
+                <div class="col-md-7 hero-copy">
+                    <h1 class="hero-title">Report<br class="d-none d-md-block">Community Issues<br class="d-none d-md-block">Easily</h1>
+                    <p class="hero-description">
+                        Help us keep our barangay safe, clean, and responsive.
+                        Submit a report and track its progress online.
+                    </p>
+                    <a href="report.html" class="btn btn-report">Report an Issue</a>
+                </div>
+                <div class="col-md-5">
+                    <div class="hero-image" role="img" aria-label="Image placeholder">
+                        <i class="bi bi-image"></i>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4">
-              <aside class="report-lookup" id="report" aria-labelledby="report-lookup-title">
-                <h2 class="report-lookup-title" id="report-lookup-title">Already submitted a report?</h2>
-                <p class="report-lookup-copy">Enter your report number to check its status.</p>
-                <form id="report-lookup-form">
-                  <label class="form-label" for="report-number">Report number</label>
-                  <input class="form-control mb-3" id="report-number" name="report-number" type="text" placeholder="e.g. SR-2026-001" autocomplete="off" required>
-                  <button class="btn btn-primary w-100" type="submit">Check report status <span aria-hidden="true">→</span></button>
-                  <p class="report-lookup-feedback small mt-3 mb-0" id="report-lookup-feedback" role="status" aria-live="polite" hidden></p>
-                </form>
-              </aside>
-            </div>
-          </div>
         </div>
-        <p class="photo-credit position-absolute bottom-0 end-0 small m-3">A little caution goes a long way.</p>
-      </section>
+    </section>
 
-      <!-- Static cards introduce common scam categories without needing JavaScript. -->
-      <section class="scam-types py-5" id="scam-types" aria-labelledby="scam-types-title">
-        <div class="container py-lg-4">
-          <div class="scam-types-heading mb-4 mb-lg-5">
-            <p class="scam-types-kicker text-uppercase fw-bold mb-2">Spot the pattern</p>
-            <h2 class="scam-types-title mb-3" id="scam-types-title">Scams come in different forms.</h2>
-            <p class="scam-types-intro mb-0">Knowing the common tactics can make suspicious messages easier to recognize.</p>
-          </div>
+    <!-- Common Issues -->
+    <section class="common-section">
+        <div class="container-fluid px-0 px-md-2">
+            <h2 class="section-title">Common Issues You Can Report</h2>
 
-          <div class="row g-3 g-lg-4">
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-envelope-exclamation"></i></span>
-                <h3 class="scam-card-title">Phishing</h3>
-                <p class="scam-card-description mb-0">Fake emails and websites imitate trusted organizations to steal passwords, payment details, or personal information.</p>
-              </article>
+            <div class="row g-2 g-md-4 align-items-stretch">
+                <div class="col-12 col-md-3">
+                    <a class="issue-card" href="report.html">
+                        <i class="bi bi-volume-up"></i>
+                        <span class="issue-label">Excessive<br class="d-none d-md-block"> Late-night Noise</span>
+                    </a>
+                </div>
+                <div class="col-12 col-md-3">
+                    <a class="issue-card" href="report.html">
+                        <i class="bi bi-car-front-fill"></i>
+                        <span class="issue-label">Illegal<br class="d-none d-md-block"> Parking</span>
+                    </a>
+                </div>
+                <div class="col-12 col-md-3">
+                    <a class="issue-card" href="report.html">
+                        <i class="bi bi-droplet"></i>
+                        <span class="issue-label">Water Supply<br class="d-none d-md-block"> Interruptions</span>
+                    </a>
+                </div>
+                <div class="col-12 col-md-3">
+                    <a class="issue-card" href="report.html">
+                        <i class="bi bi-mosquito"></i>
+                        <span class="issue-label">Mosquito<br class="d-none d-md-block"> Breeding Sites</span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <aside class="help-card">
+                        <h3>Need Help?</h3>
+                        <p>Visit our FAQ page or contact the barangay office.</p>
+                        <a href="faq.html" class="btn-dark-custom">Go to FAQ</a>
+                    </aside>
+                </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-qr-code"></i></span>
-                <h3 class="scam-card-title">QRishing</h3>
-                <p class="scam-card-description mb-0">A malicious QR code can send you to a fake sign-in or payment page designed to capture your information.</p>
-              </article>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-chat-square-dots"></i></span>
-                <h3 class="scam-card-title">Smishing</h3>
-                <p class="scam-card-description mb-0">Text messages use urgent warnings or rewards to get you to tap a link or share a verification code.</p>
-              </article>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-telephone-inbound"></i></span>
-                <h3 class="scam-card-title">Vishing</h3>
-                <p class="scam-card-description mb-0">A caller impersonates a bank or agency and pressures you to reveal a one-time password or send money.</p>
-              </article>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-bag-x"></i></span>
-                <h3 class="scam-card-title">Fake online shops</h3>
-                <p class="scam-card-description mb-0">Fraudulent listings lure shoppers with unusually low prices, then take payment without delivering the item.</p>
-              </article>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <article class="scam-card h-100">
-                <span class="scam-icon" aria-hidden="true"><i class="bi bi-person-badge"></i></span>
-                <h3 class="scam-card-title">Impersonation</h3>
-                <p class="scam-card-description mb-0">Someone pretends to be a friend, delivery service, or public official to ask for money or private details.</p>
-              </article>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="how-it-works py-5" id="how-it-works" aria-labelledby="how-it-works-title">
-        <div class="container py-lg-4">
-          <div class="how-heading mb-5">
-            <p class="how-kicker text-uppercase fw-bold mb-2">From submission to results</p>
-            <h2 class="how-title mb-3" id="how-it-works-title">How it works</h2>
-            <p class="how-intro mb-0">Submit suspicious content, get an AI-assisted analysis, and review the findings.</p>
-          </div>
-
-          <div class="how-steps row g-4 position-relative">
-            <div class="col-md-4">
-              <article class="how-step">
-                <span class="step-number">01</span>
-                <h3 class="step-title">Submit</h3>
-                <p class="step-description mb-0">Send a suspicious link or text message, or upload a screenshot of what you received.</p>
-              </article>
+    <!-- How it Works -->
+    <section class="how-section">
+        <div class="container-fluid px-0 px-md-2">
+            <h2 class="section-title">How It Works</h2>
+            <div class="row g-3 g-md-4">
+                <div class="col-12 col-md-3">
+                    <div class="step-card">
+                        <span class="step-number">1</span>
+                        <div>
+                            <h3>Submit a report</h3>
+                            <p>Provide the details of the issue</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="step-card">
+                        <span class="step-number">2</span>
+                        <div>
+                            <h3>Barangay personnel review</h3>
+                            <p>Your report will be checked and assigned</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="step-card">
+                        <span class="step-number">3</span>
+                        <div>
+                            <h3>Track the status</h3>
+                            <p>Monitor the progress online</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-              <article class="how-step">
-                <span class="step-number">02</span>
-                <h3 class="step-title">Analyze</h3>
-                <p class="step-description mb-0">AI examines the submitted text or screenshot and compares it with known and similar reports in the database.</p>
-              </article>
-            </div>
-            <div class="col-md-4">
-              <article class="how-step">
-                <span class="step-number">03</span>
-                <h3 class="step-title">Review</h3>
-                <p class="step-description mb-0">Read the analysis, see relevant matches, and follow the suggested next steps.</p>
-              </article>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="volunteer-section position-relative d-flex align-items-center overflow-hidden" id="volunteer" aria-labelledby="volunteer-title">
-        <div class="volunteer-parallax" aria-hidden="true"></div>
-        <div class="volunteer-shade" aria-hidden="true"></div>
-        <div class="container volunteer-content">
-          <div class="row">
-            <div class="col-lg-8 col-xl-7">
-              <p class="volunteer-eyebrow text-uppercase fw-bold mb-3">Community review</p>
-              <h2 class="volunteer-title mb-3" id="volunteer-title">Some reports need a human verdict.</h2>
-              <p class="volunteer-description mb-4">When AI cannot confidently tell whether a report is a scam, volunteer reviewers examine its evidence. Once reviewers agree, the verdict is published for that report.</p>
-              <button class="btn btn-primary d-inline-flex align-items-center gap-3" id="volunteer-button" type="button">Become a volunteer <span aria-hidden="true">↗</span></button>
-              <p class="volunteer-feedback small mt-3 mb-0" id="volunteer-feedback" role="status" aria-live="polite" hidden></p>
-            </div>
-          </div>
+    <footer>
+        <div class="container-fluid">
+            <p class="mb-0">© 2026 Barangay Report | Citizen Reporting Website</p>
         </div>
-      </section>
-
-      <section class="agency-directory py-5" id="agencies" aria-labelledby="agency-directory-title">
-        <div class="container py-lg-4">
-          <div class="agency-heading mb-4 mb-lg-5">
-            <p class="agency-kicker text-uppercase fw-bold mb-2">Official support</p>
-            <h2 class="agency-title mb-3" id="agency-directory-title">Contact a Philippine cybercrime agency.</h2>
-            <p class="agency-intro mb-0">For formal complaints or assistance, use an agency's official channels and follow its current instructions.</p>
-          </div>
-
-          <div class="row g-3 g-lg-4">
-            <div class="col-md-6 col-xl-3">
-              <article class="agency-card h-100">
-                <span class="agency-icon" aria-hidden="true"><i class="bi bi-building-lock"></i></span>
-                <h3 class="agency-card-title">DICT</h3>
-                <p class="agency-card-description">The Department of Information and Communications Technology leads national ICT and cybersecurity programs. Check its official channels for guidance and advisories.</p>
-                <a class="agency-link" href="https://dict.gov.ph/" target="_blank" rel="noopener noreferrer">Official DICT website <span aria-hidden="true">↗</span></a>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-3">
-              <article class="agency-card h-100">
-                <span class="agency-icon" aria-hidden="true"><i class="bi bi-search"></i></span>
-                <h3 class="agency-card-title">NBI Cybercrime Division</h3>
-                <p class="agency-card-description">The National Bureau of Investigation handles cybercrime investigations and digital evidence. Check its official directory for current procedures.</p>
-                <a class="agency-link" href="https://nbi.gov.ph/overview/divisions/" target="_blank" rel="noopener noreferrer">NBI divisions and services <span aria-hidden="true">↗</span></a>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-3">
-              <article class="agency-card h-100">
-                <span class="agency-icon" aria-hidden="true"><i class="bi bi-shield-check"></i></span>
-                <h3 class="agency-card-title">PNP Anti-Cybercrime Group</h3>
-                <p class="agency-card-description">The PNP ACG investigates cybercrime complaints and provides law-enforcement assistance for online offenses.</p>
-                <a class="agency-link" href="https://acg.pnp.gov.ph/" target="_blank" rel="noopener noreferrer">Official PNP ACG website <span aria-hidden="true">↗</span></a>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-3">
-              <article class="agency-card h-100">
-                <span class="agency-icon" aria-hidden="true"><i class="bi bi-diagram-3"></i></span>
-                <h3 class="agency-card-title">CICC</h3>
-                <p class="agency-card-description">The Cybercrime Investigation and Coordinating Center coordinates the government's response to cybercrime and online scams.</p>
-                <a class="agency-link" href="https://cicc.gov.ph/" target="_blank" rel="noopener noreferrer">Official CICC website <span aria-hidden="true">↗</span></a>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer py-4">
-      <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-        <p class="footer-copyright mb-0">&copy; 2026 Suri</p>
-        <p class="footer-notice mb-0">This is intended for Web Development (WEBDEVT) demo purposes only.</p>
-      </div>
     </footer>
-  </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
