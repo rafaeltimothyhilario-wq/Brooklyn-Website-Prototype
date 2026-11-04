@@ -1,132 +1,510 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f7f2">
-    <meta name="description" content="View the status and details of a Suri community report.">
-    <title>Track a Report | Suri</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Report | Track Report</title>
 
-    <!-- Reuse the site's Bootstrap foundation, typography, navigation, and footer. -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/menu.css">
-    <link rel="stylesheet" href="styles/track.css">
-    <link rel="stylesheet" href="styles/footer.css">
-    <script src="scripts/menu.js" defer></script>
-    <script src="scripts/track.js" defer></script>
-  </head>
-  <body>
-    <header class="navbar navbar-expand-md sticky-top bg-light px-3 px-lg-5">
-      <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center gap-2 mb-0" href="index.html#home" aria-label="Suri home">
-          <span class="brand-mark" aria-hidden="true">s</span>
-          <span class="brand-name fs-4 fw-bold">suri<span class="brand-period">.</span></span>
-        </a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-        <button class="navbar-toggler" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-navigation">
-          <span class="navbar-toggler-icon" aria-hidden="true"></span>
-        </button>
+    <style>
+        :root {
+            --ink: #171717;
+            --muted: #555;
+            --border: #d5d5d5;
+            --soft: #f7f7f7;
+            --peach: #fff0e9;
+        }
 
-        <nav class="collapse navbar-collapse justify-content-md-end" id="site-navigation" aria-label="Main navigation">
-          <div class="navbar-nav align-items-md-center gap-md-5">
-            <a class="nav-link" href="index.html#home">Home</a>
-            <a class="nav-link" href="index.html#how-it-works">About</a>
-            <a class="nav-link" href="index.html#volunteer">Volunteer</a>
-            <a class="btn btn-outline-dark ms-md-2" href="report.html">Report</a>
-          </div>
-        </nav>
-      </div>
-    </header>
+        * { box-sizing: border-box; }
 
-    <main>
-      <section class="track-hero d-flex align-items-center" aria-labelledby="track-title">
-        <div class="container">
-          <p class="track-eyebrow text-uppercase fw-bold mb-2">Report status</p>
-          <h1 class="track-hero-title mb-2" id="track-title">Track a report</h1>
-          <p class="track-hero-copy mb-0">Follow a report from submission through review and verdict.</p>
-        </div>
-      </section>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: #fff;
+            line-height: 1.45;
+        }
 
-      <section class="track-main py-5" aria-label="Report tracking details">
-        <div class="container">
-          <form class="track-search mb-4" id="track-search-form">
-            <label class="form-label" for="track-report-number">Report number</label>
-            <div class="input-group">
-              <input class="form-control" id="track-report-number" name="report-number" type="text" placeholder="e.g. SR-20261025-ABCDE" required>
-              <button class="btn btn-dark" type="submit">Find report</button>
+        /* Navigation (same as home page) */
+        .site-header {
+            background: #fff;
+            border: 1px solid #d6d6d6;
+            border-radius: 13px;
+            margin: 10px 10px 0;
+            min-height: 58px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+        .navbar-brand:hover { color: var(--ink); }
+        .navbar-nav { gap: 22px; }
+        .nav-link {
+            color: #111;
+            font-weight: 600;
+            font-size: .9rem;
+            padding: 18px 3px 13px !important;
+        }
+        .nav-link.active { border-bottom: 3px solid #111; }
+
+        /* Heading */
+        .page-heading { margin: 18px 10px 0; }
+        .page-title { font-size: clamp(1.65rem, 3vw, 2.25rem); font-weight: 800; line-height: 1.12; margin: 0 0 6px; }
+        .page-subtitle { font-size: .95rem; margin: 0 0 14px; color: var(--muted); }
+
+        .track-wrap { margin: 0 10px 28px; }
+
+        /* Search */
+        .search-row { display: flex; gap: 14px; }
+        .search-row .form-control {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-size: .92rem;
+        }
+        .search-row .form-control:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 .2rem rgba(17,17,17,.12);
+        }
+        .btn-report {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 10px 27px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .btn-report:hover, .btn-report:focus { background: #333; color: #fff; }
+
+        .btn-outline-dark-custom {
+            background: #fff;
+            color: #111;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 10px 22px;
+            font-weight: 700;
+        }
+        .btn-outline-dark-custom:hover { background: #f1f1f1; color: #111; }
+
+        .section-title { font-size: 1.45rem; font-weight: 800; margin: 0 0 12px; }
+
+        .notice {
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: .9rem;
+            background: #fdecea;
+            border: 1px solid #f3c2bd;
+            color: #8a1f17;
+        }
+
+        /* Report card */
+        .report-card {
+            border: 1px solid #ddd;
+            border-radius: 11px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            background: #fff;
+            overflow: hidden;
+        }
+        .report-left { padding: 20px; }
+        .report-right { padding: 20px; border-left: 1px solid #ddd; }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 4px 14px;
+            margin-bottom: 6px;
+            font-size: .93rem;
+        }
+        .detail-row dt { font-weight: 700; }
+        .detail-row dd { margin: 0; word-break: break-word; }
+
+        .photo-box {
+            width: 100%;
+            max-width: 240px;
+            aspect-ratio: 4 / 3;
+            border: 9px solid #aaa;
+            background: #fff;
+            color: #aaa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .photo-box small { font-size: .72rem; color: #777; padding: 0 6px; word-break: break-all; }
+
+        .status-title { font-size: 1.15rem; font-weight: 800; margin: 0 0 14px; }
+
+        /* Timeline: horizontal on desktop, vertical on mobile */
+        .timeline { list-style: none; margin: 0 0 20px; padding: 0; display: flex; }
+        .timeline li {
+            position: relative;
+            flex: 1;
+            text-align: center;
+            font-size: .78rem;
+            color: #555;
+        }
+        .timeline .dot {
+            width: 28px;
+            height: 28px;
+            margin: 0 auto 6px;
+            border: 2px solid #111;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            position: relative;
+            z-index: 1;
+        }
+        .timeline li::after {
+            content: "";
+            position: absolute;
+            top: 13px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #111;
+        }
+        .timeline li:last-child::after { display: none; }
+        .timeline li.done .dot { background: #111; }
+        .timeline li.current .dot { box-shadow: 0 0 0 4px #ddd; }
+        .timeline li.current .step-name, .timeline li.done .step-name { font-weight: 700; color: #111; }
+        .step-time { display: block; font-size: .72rem; color: #666; }
+
+        .status-update {
+            background: var(--peach);
+            border: 1px solid #ead4ca;
+            border-radius: 11px;
+            padding: 16px 18px;
+        }
+        .status-update h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+        .status-update p { font-size: .9rem; margin: 0; }
+
+        .demo-note { font-size: .8rem; color: #777; margin-top: 14px; }
+
+        footer {
+            padding: 18px 10px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .site-header { margin: 8px 8px 0; }
+            .navbar { padding: 9px 12px; }
+            .navbar-brand { font-size: 1.1rem; }
+            .navbar-toggler { border: 0; padding: 2px; }
+            .navbar-toggler:focus { box-shadow: none; }
+            .page-heading { margin: 14px 8px 0; }
+            .page-title { font-size: 1.45rem; }
+            .page-subtitle { font-size: .88rem; margin-bottom: 10px; }
+            .track-wrap { margin: 0 8px 20px; }
+            .search-row { gap: 8px; }
+            .search-row .btn-report { padding: 9px 14px; }
+            .section-title { font-size: 1.15rem; }
+
+            .report-left { padding: 14px 14px 6px; }
+            .report-right { padding: 6px 14px 16px; border-left: 0; }
+            .detail-row { grid-template-columns: 100px 1fr; font-size: .88rem; }
+            .extra { display: none; }
+            .report-card.expanded .extra { display: block; }
+            .report-card.expanded .detail-row.extra { display: grid; }
+
+            .timeline { flex-direction: column; margin-bottom: 14px; }
+            .timeline li {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                text-align: left;
+                padding-bottom: 14px;
+                font-size: .9rem;
+            }
+            .timeline .dot { margin: 0; flex: 0 0 28px; }
+            .timeline li::after {
+                top: 28px;
+                left: 13px;
+                width: 2px;
+                height: calc(100% - 28px);
+            }
+            .timeline li > div { padding-top: 3px; }
+            footer { padding: 14px 8px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg site-header sticky-top">
+        <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand" href="index.html">Barangay Report</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="track.html" aria-current="page">Track Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                </ul>
             </div>
-            <p class="form-text mb-0">Try sample cases: SR-20261025-1001 (pending), SR-20261025-1002 (community review), or SR-20261025-1003 (verdict).</p>
-          </form>
-
-          <p class="track-notice" id="track-notice" role="status" aria-live="polite" hidden></p>
-
-          <article class="track-report" id="track-report" aria-labelledby="track-report-heading" hidden>
-            <header class="track-report-header">
-              <div>
-                <p class="track-category mb-1" id="track-category"></p>
-                <h2 class="track-report-number mb-0" id="track-report-heading"></h2>
-              </div>
-              <span class="track-status" id="track-status"></span>
-            </header>
-
-            <div class="row g-4 py-4">
-              <div class="col-12">
-                <h3 class="track-detail-title">Incident description</h3>
-                <p class="track-detail-value mb-0" id="track-description"></p>
-              </div>
-              <div class="col-md-6">
-                <h3 class="track-detail-title">Sender</h3>
-                <p class="track-detail-value mb-0" id="track-sender"></p>
-              </div>
-              <div class="col-md-6">
-                <h3 class="track-detail-title">Date received</h3>
-                <p class="track-detail-value mb-0" id="track-date-received"></p>
-              </div>
-              <div class="col-md-6">
-                <h3 class="track-detail-title">Location</h3>
-                <p class="track-detail-value mb-0" id="track-location"></p>
-              </div>
-              <div class="col-md-6">
-                <h3 class="track-detail-title">Submitted</h3>
-                <p class="track-detail-value mb-0" id="track-submitted"></p>
-              </div>
-              <div class="col-12" id="track-message-row" hidden>
-                <h3 class="track-detail-title">Submitted message</h3>
-                <p class="track-detail-value track-message mb-0" id="track-message"></p>
-              </div>
-              <div class="col-12" id="track-screenshot-row" hidden>
-                <h3 class="track-detail-title">Screenshot attachment</h3>
-                <p class="track-detail-value mb-0" id="track-screenshot"></p>
-              </div>
-            </div>
-
-            <section class="track-progress" aria-labelledby="track-progress-title">
-              <h3 class="track-progress-title" id="track-progress-title">Progress</h3>
-              <ol class="track-timeline" id="track-timeline"></ol>
-            </section>
-
-            <section class="track-verdict mt-4" id="track-verdict" aria-labelledby="track-verdict-title" hidden>
-              <p class="track-verdict-kicker text-uppercase fw-bold mb-2">Published verdict</p>
-              <h3 class="track-verdict-title mb-2" id="track-verdict-title"></h3>
-              <p class="track-verdict-copy mb-0" id="track-verdict-copy"></p>
-            </section>
-          </article>
-
-          <p class="track-demo-note small mt-4 mb-0">Sample cases load from data/reports.json. Submitted reports are stored only in this browser; reports are not sent to an agency or reviewed by a live AI system.</p>
         </div>
-      </section>
+    </nav>
+
+    <!-- Heading + search -->
+    <section class="page-heading">
+        <div class="container-fluid px-0 px-md-2">
+            <h1 class="page-title">Track Your Report</h1>
+            <p class="page-subtitle">Enter your report reference number to view the status and details.</p>
+
+            <form id="track-form" class="search-row" novalidate>
+                <label class="visually-hidden" for="ref-input">Report reference number</label>
+                <input class="form-control" type="text" id="ref-input" name="ref"
+                       placeholder="e.g. BR-2026-00123" autocomplete="off" required>
+                <button class="btn btn-report" type="submit">Track Report</button>
+            </form>
+        </div>
+    </section>
+
+    <main class="track-wrap mt-4">
+        <div class="container-fluid px-0 px-md-2">
+            <p class="notice" id="notice" role="alert" hidden></p>
+
+            <h2 class="section-title" id="details-heading">Sample Report Details</h2>
+
+            <article class="report-card" id="report-card" aria-labelledby="details-heading">
+                <div class="row g-0">
+                    <!-- Details -->
+                    <div class="col-12 col-md-6 report-left">
+                        <dl class="detail-row"><dt>Reference No.</dt><dd id="d-ref"></dd></dl>
+                        <dl class="detail-row"><dt>Category</dt><dd id="d-category"></dd></dl>
+                        <dl class="detail-row"><dt>Date Reported</dt><dd id="d-date"></dd></dl>
+                        <dl class="detail-row extra"><dt>Severity</dt><dd id="d-severity"></dd></dl>
+                        <dl class="detail-row extra"><dt>Location</dt><dd id="d-location"></dd></dl>
+                        <dl class="detail-row extra"><dt>Description</dt><dd id="d-description"></dd></dl>
+                        <dl class="detail-row extra"><dt>Photo Evidence</dt>
+                            <dd>
+                                <div class="photo-box" id="d-photo" role="img" aria-label="Photo evidence placeholder">
+                                    <i class="bi bi-image"></i>
+                                    <small id="d-photo-name"></small>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-12 col-md-6 report-right">
+                        <h3 class="status-title">Current Status</h3>
+                        <ol class="timeline" id="timeline"></ol>
+
+                        <div class="status-update">
+                            <h3>Status Update</h3>
+                            <p id="status-message"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile toggle -->
+                <div class="d-md-none p-3 pt-0">
+                    <button class="btn btn-outline-dark-custom w-100 d-flex justify-content-between align-items-center"
+                            type="button" id="toggle-details" aria-expanded="false">
+                        <span id="toggle-label">View Full Details</span>
+                        <i class="bi bi-chevron-right" id="toggle-icon"></i>
+                    </button>
+                </div>
+            </article>
+
+            <p class="demo-note">This is a demonstration website. Sample report BR-2026-00123 is built in. Reports you submit are stored only in this browser.</p>
+        </div>
     </main>
 
-    <footer class="site-footer py-4">
-      <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-        <p class="footer-copyright mb-0">&copy; 2026 Suri</p>
-        <p class="footer-notice mb-0">This is intended for Web Development (WEBDEVT) demo purposes only.</p>
-      </div>
+    <footer>
+        <div class="container-fluid">
+            <p class="mb-0">© 2026 Barangay Report | Citizen Reporting Website</p>
+        </div>
     </footer>
-  </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            const STEPS = ['Submitted', 'Under Review', 'In Progress', 'Resolved'];
+            const MESSAGES = {
+                'Submitted': 'Your report has been received. Barangay personnel will review it soon.',
+                'Under Review': 'Your report is currently under review by the barangay personnel. You will be notified once there are updates.',
+                'In Progress': 'Barangay personnel are working on your report. You will be notified once it is resolved.',
+                'Resolved': 'Your report has been resolved. Thank you for helping keep our barangay safe, clean, and responsive.'
+            };
+
+            const SAMPLE = {
+                reference: 'BR-2026-00123',
+                category: 'Illegal Parking',
+                severity: 'Medium',
+                dateText: 'October 20, 2026',
+                submittedText: 'Oct 20, 2026 10:32 AM',
+                address: 'Purok 3, Riverside Street',
+                landmark: '',
+                description: 'A private vehicle is blocking the driveway of our subdivision every night.',
+                photoName: '',
+                status: 'Under Review'
+            };
+
+            const form = document.getElementById('track-form');
+            const input = document.getElementById('ref-input');
+            const notice = document.getElementById('notice');
+            const card = document.getElementById('report-card');
+            const heading = document.getElementById('details-heading');
+            const timeline = document.getElementById('timeline');
+            const toggle = document.getElementById('toggle-details');
+            const toggleLabel = document.getElementById('toggle-label');
+            const toggleIcon = document.getElementById('toggle-icon');
+
+            function setText(id, text) { document.getElementById(id).textContent = text; }
+
+            function fmtDate(iso) {
+                const d = new Date(iso);
+                if (isNaN(d)) return '';
+                return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            function fmtStamp(iso) {
+                const d = new Date(iso);
+                if (isNaN(d)) return '';
+                const date = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                return date + ' ' + time;
+            }
+
+            // Turn a report saved by report.html into the shape used for display
+            function fromStored(r) {
+                const location = r.landmark ? r.address + ' (near ' + r.landmark + ')' : r.address;
+                return {
+                    reference: r.reference,
+                    category: r.category,
+                    severity: r.severity,
+                    dateText: r.dateReported ? fmtDate(r.dateReported + 'T00:00:00') : '',
+                    submittedText: fmtStamp(r.submittedAt),
+                    address: location,
+                    description: r.description,
+                    photoName: r.photoName || '',
+                    status: STEPS.indexOf(r.status) >= 0 ? r.status : 'Submitted'
+                };
+            }
+
+            function findReport(ref) {
+                const key = ref.trim().toUpperCase();
+                if (key === SAMPLE.reference) return { report: SAMPLE, sample: true };
+                try {
+                    const list = JSON.parse(localStorage.getItem('barangayReports') || '[]');
+                    if (Array.isArray(list)) {
+                        const hit = list.find(function (r) { return r && String(r.reference).toUpperCase() === key; });
+                        if (hit) return { report: fromStored(hit), sample: false };
+                    }
+                } catch (err) { /* storage unavailable */ }
+                return null;
+            }
+
+            function render(report, isSample) {
+                heading.textContent = isSample ? 'Sample Report Details' : 'Report Details';
+                setText('d-ref', report.reference);
+                setText('d-category', report.category);
+                setText('d-date', report.dateText);
+                setText('d-severity', report.severity || '—');
+                setText('d-location', report.address);
+                setText('d-description', report.description);
+                setText('d-photo-name', report.photoName);
+
+                const current = STEPS.indexOf(report.status);
+                timeline.textContent = '';
+                STEPS.forEach(function (name, i) {
+                    const li = document.createElement('li');
+                    if (i < current || (i === current && name === 'Resolved')) li.className = 'done';
+                    else if (i === current) li.className = 'current';
+                    if (i === 0) li.className = 'done' + (current === 0 ? ' current' : '');
+
+                    const dot = document.createElement('span');
+                    dot.className = 'dot';
+                    dot.setAttribute('aria-hidden', 'true');
+                    if (li.classList.contains('done')) {
+                        const check = document.createElement('i');
+                        check.className = 'bi bi-check-lg';
+                        dot.appendChild(check);
+                    }
+
+                    const label = document.createElement('div');
+                    const nm = document.createElement('span');
+                    nm.className = 'step-name';
+                    nm.textContent = name;
+                    label.appendChild(nm);
+                    if (i === 0 && report.submittedText) {
+                        const t = document.createElement('span');
+                        t.className = 'step-time';
+                        t.textContent = report.submittedText;
+                        label.appendChild(t);
+                    }
+
+                    if (i === current) li.setAttribute('aria-current', 'step');
+                    li.append(dot, label);
+                    timeline.appendChild(li);
+                });
+
+                setText('status-message', MESSAGES[report.status]);
+                card.hidden = false;
+            }
+
+            function setExpanded(open) {
+                card.classList.toggle('expanded', open);
+                toggle.setAttribute('aria-expanded', String(open));
+                toggleLabel.textContent = open ? 'Hide Full Details' : 'View Full Details';
+                toggleIcon.className = open ? 'bi bi-chevron-down' : 'bi bi-chevron-right';
+            }
+
+            toggle.addEventListener('click', function () {
+                setExpanded(!card.classList.contains('expanded'));
+            });
+
+            function search(value) {
+                notice.hidden = true;
+                if (!value.trim()) {
+                    notice.textContent = 'Please enter your report reference number.';
+                    notice.hidden = false;
+                    return;
+                }
+                const found = findReport(value);
+                if (!found) {
+                    card.hidden = true;
+                    heading.textContent = 'Report Details';
+                    notice.textContent = 'No report found for "' + value.trim() + '". Check the reference number and try again.';
+                    notice.hidden = false;
+                    return;
+                }
+                setExpanded(false);
+                render(found.report, found.sample);
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                search(input.value);
+            });
+
+            // Show the sample by default, or the report from ?ref=
+            const param = new URLSearchParams(window.location.search).get('ref');
+            if (param) {
+                input.value = param;
+                search(param);
+            } else {
+                render(SAMPLE, true);
+            }
+        })();
+    </script>
+</body>
 </html>

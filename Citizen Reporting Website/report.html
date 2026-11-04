@@ -1,618 +1,586 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Report | Report an Issue</title>
 
-    <title>Submit a Report | Suri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --ink: #171717;
+            --muted: #555;
+            --border: #d5d5d5;
+            --soft: #f7f7f7;
+            --peach: #fff0e9;
+        }
 
-    <link rel="stylesheet" href="styles/menu.css">
-    <link rel="stylesheet" href="styles/footer.css">
-    <link rel="stylesheet" href="styles/report.css">
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: #fff;
+            line-height: 1.45;
+        }
+
+        /* Navigation (same as home page) */
+        .site-header {
+            background: #fff;
+            border: 1px solid #d6d6d6;
+            border-radius: 13px;
+            margin: 10px 10px 0;
+            min-height: 58px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+        .navbar-brand:hover { color: var(--ink); }
+        .navbar-nav { gap: 22px; }
+        .nav-link {
+            color: #111;
+            font-weight: 600;
+            font-size: .9rem;
+            padding: 18px 3px 13px !important;
+        }
+        .nav-link.active { border-bottom: 3px solid #111; }
+
+        /* Page heading */
+        .page-heading { margin: 18px 10px 0; }
+        .page-title { font-size: clamp(1.65rem, 3vw, 2.25rem); font-weight: 800; line-height: 1.12; margin: 0 0 6px; }
+        .page-subtitle { font-size: .95rem; margin: 0 0 14px; color: var(--muted); }
+
+        /* Form cards */
+        .form-wrap { margin: 0 10px 28px; }
+
+        .form-card {
+            height: 100%;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 11px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            padding: 18px 20px 20px;
+        }
+        .form-card h2 { font-size: 1.25rem; font-weight: 800; margin: 0 0 12px; }
+
+        .form-label { font-weight: 700; font-size: .88rem; margin-bottom: 4px; }
+        .form-control, .form-select {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: .9rem;
+            padding: 9px 12px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 .2rem rgba(17,17,17,.12);
+        }
+        .form-text { font-size: .78rem; color: #777; }
+        .req { color: #c0392b; }
+
+        /* Photo upload */
+        .dropzone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+            min-height: 175px;
+            height: 100%;
+            padding: 14px 10px;
+            border: 2px dashed #e2b9ab;
+            border-radius: 11px;
+            background: var(--peach);
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 700;
+            transition: background .15s ease, border-color .15s ease;
+        }
+        .dropzone:hover, .dropzone:focus-visible, .dropzone.is-dragover {
+            background: #ffe3d6;
+            border-color: #111;
+            outline: none;
+        }
+        .dropzone i { font-size: 2.2rem; line-height: 1; }
+        .dropzone small { color: #777; font-weight: 400; }
+        .dropzone.is-invalid { border-color: #dc3545; }
+        .photo-preview {
+            display: none;
+            max-width: 100%;
+            max-height: 110px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .photo-name { font-weight: 400; color: #444; word-break: break-all; }
+
+        /* Buttons */
+        .btn-report {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 10px 27px;
+            font-weight: 700;
+            min-width: 195px;
+        }
+        .btn-report:hover, .btn-report:focus { background: #333; color: #fff; }
+
+        .btn-outline-dark-custom {
+            background: #fff;
+            color: #111;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 10px 22px;
+            font-weight: 700;
+        }
+        .btn-outline-dark-custom:hover { background: #f1f1f1; color: #111; }
+
+        /* Review modal */
+        .modal-content { border-radius: 13px; border: 1px solid #ddd; }
+        .modal-title { font-weight: 800; font-size: 1.25rem; }
+        .review-list { margin: 0; }
+        .review-list dt { font-size: .82rem; font-weight: 700; color: var(--muted); }
+        .review-list dd { margin: 0 0 10px; font-size: .92rem; word-break: break-word; white-space: pre-line; }
+
+        /* Success card */
+        .success-card {
+            background: var(--peach);
+            border: 1px solid #ead4ca;
+            border-radius: 11px;
+            padding: 18px 20px;
+        }
+        .success-card h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; }
+        .ref-number { font-size: 1.5rem; font-weight: 800; letter-spacing: .5px; }
+
+        footer {
+            padding: 18px 10px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .site-header { margin: 8px 8px 0; }
+            .navbar { padding: 9px 12px; }
+            .navbar-brand { font-size: 1.1rem; }
+            .navbar-toggler { border: 0; padding: 2px; }
+            .navbar-toggler:focus { box-shadow: none; }
+            .page-heading { margin: 14px 8px 0; }
+            .page-title { font-size: 1.45rem; }
+            .page-subtitle { font-size: .88rem; margin-bottom: 10px; }
+            .form-wrap { margin: 0 8px 20px; }
+            .form-card { padding: 12px 12px 14px; }
+            .form-card h2 { font-size: 1.05rem; margin-bottom: 8px; }
+            .btn-report { width: 100%; padding: 9px 12px; }
+            footer { padding: 14px 8px; }
+        }
+    </style>
 </head>
 
 <body>
-
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top"
-         style="background-color: #293c35;">
+    <nav class="navbar navbar-expand-lg site-header sticky-top">
+        <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand" href="index.html">Barangay Report</a>
 
-        <div class="container">
-
-            <a class="navbar-brand fw-bold" href="index.html">
-                SURI
-            </a>
-
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarMenu"
-                    aria-controls="navbarMenu"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-
-                <span class="navbar-toggler-icon"></span>
-
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarMenu">
-
-                <ul class="navbar-nav ms-auto">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="report.html">
-                            Submit a Report
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="track.html">
-                            Track Report
-                        </a>
-                    </li>
-
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="report.html" aria-current="page">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="track.html">Track Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
                 </ul>
-
             </div>
         </div>
     </nav>
 
-
-    <!-- Hero Section -->
-    <section class="report-hero">
-
-        <div class="container">
-
-            <p class="report-eyebrow text-uppercase fw-bold">
-                Citizen Reporting
-            </p>
-
-            <h1 class="report-hero-title">
-                Report suspicious activity.
-            </h1>
-
-            <p class="report-hero-copy">
-                Help protect your community by reporting suspicious
-                messages, online scams, and fraudulent activities.
-            </p>
-
+    <!-- Heading -->
+    <section class="page-heading">
+        <div class="container-fluid px-0 px-md-2">
+            <h1 class="page-title">Report a Community Issue</h1>
+            <p class="page-subtitle">Provide the details below so barangay personnel can review your report.</p>
         </div>
-
     </section>
 
+    <!-- Success message (shown after submitting) -->
+    <section class="form-wrap" id="success-section" hidden>
+        <div class="container-fluid px-0 px-md-2">
+            <div class="success-card" role="status" aria-live="polite">
+                <h2><i class="bi bi-check-circle-fill me-2"></i>Report submitted</h2>
+                <p class="mb-2">Save your reference number to check the status of your report.</p>
+                <p class="ref-number mb-3" id="success-ref"></p>
+                <a href="track.html" class="btn btn-report">Track Report</a>
+                <a href="report.html" class="btn btn-outline-dark-custom ms-md-2 mt-2 mt-md-0">Submit another report</a>
+            </div>
+        </div>
+    </section>
 
     <!-- Report Form -->
-    <main class="report-form-section py-5">
+    <main class="form-wrap" id="form-section">
+        <div class="container-fluid px-0 px-md-2">
+            <form id="report-form" novalidate>
+                <div class="row g-3 g-md-4">
 
-        <div class="container">
-
-            <!-- Workflow -->
-            <div class="report-workflow">
-
-                <div class="workflow-step is-current">
-                    <span class="workflow-number">1</span>
-                    <strong>Report Details</strong>
-                </div>
-
-                <div class="workflow-connector"></div>
-
-                <div class="workflow-step">
-                    <span class="workflow-number">2</span>
-                    <strong>Evidence</strong>
-                </div>
-
-                <div class="workflow-connector"></div>
-
-                <div class="workflow-step">
-                    <span class="workflow-number">3</span>
-                    <strong>Location</strong>
-                </div>
-
-            </div>
-
-
-            <!-- Safety Reminder -->
-            <div class="report-safety-note mb-4">
-
-                <div class="safety-icon">!</div>
-
-                <div>
-                    <strong>Protect your personal information</strong>
-
-                    <p class="mb-0">
-                        Never include passwords, PINs, or one-time
-                        verification codes in your report.
-                    </p>
-                </div>
-
-            </div>
-
-
-            <!-- Form Introduction -->
-            <div class="report-form-intro mb-4">
-
-                <h2 class="report-form-title">
-                    Submit a Report
-                </h2>
-
-                <p class="text-secondary">
-                    Provide accurate information to help reviewers
-                    understand and assess the incident.
-                </p>
-
-            </div>
-
-
-            <form id="report-form"
-                  class="report-form bg-white"
-                  novalidate>
-
-                <div class="row g-4">
-
-
-                    <!-- STEP 1 -->
+                    <!-- A. Issue Information -->
                     <div class="col-12">
-
-                        <div class="form-section-heading">
-
-                            <span class="section-kicker">STEP 01</span>
-
-                            <h3>Incident Details</h3>
-
-                            <p>
-                                Tell us what happened.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Category -->
-                    <div class="col-12">
-
-                        <label class="form-label" for="category">
-                            Incident Category *
-                        </label>
-
-                        <select class="form-select"
-                                id="category"
-                                name="category"
-                                required>
-
-                            <option value="">Select a category</option>
-
-                            <option value="SMS Scam">
-                                SMS Scam
-                            </option>
-
-                            <option value="Online Shopping Scam">
-                                Online Shopping Scam
-                            </option>
-
-                            <option value="Phishing">
-                                Phishing
-                            </option>
-
-                            <option value="Investment Scam">
-                                Investment Scam
-                            </option>
-
-                            <option value="Fraudulent Call">
-                                Fraudulent Call
-                            </option>
-
-                            <option value="Other">
-                                Other / Unsure
-                            </option>
-
-                        </select>
-
-                        <div class="invalid-feedback">
-                            Please select an incident category.
-                        </div>
-
-                    </div>
-
-
-                    <!-- Description -->
-                    <div class="col-12">
-
-                        <label class="form-label"
-                               for="incident-description">
-
-                            Incident Description *
-
-                        </label>
-
-                        <textarea class="form-control"
-                                  id="incident-description"
-                                  name="description"
-                                  rows="4"
-                                  minlength="20"
-                                  maxlength="1200"
-                                  placeholder="Describe what happened..."
-                                  required></textarea>
-
-                        <div class="d-flex justify-content-between gap-2 form-text">
-
-                            <span>
-                                At least 20 characters. Do not include passwords.
-                            </span>
-
-                            <span class="character-count"
-                                  data-count-for="incident-description"
-                                  aria-live="polite">
-                                0 / 1200
-                            </span>
-
-                        </div>
-
-                        <div class="invalid-feedback">
-                            Please provide a description of at least 20 characters.
-                        </div>
-
-                    </div>
-
-
-                    <!-- STEP 2 -->
-                    <div class="col-12">
-
-                        <div class="form-section-heading compact">
-
-                            <span class="section-kicker">STEP 02</span>
-
-                            <h3>
-                                Evidence
-                                <span class="optional-tag">Optional</span>
-                            </h3>
-
-                            <p>
-                                Provide additional information if available.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Suspicious Message -->
-                    <div class="col-12">
-
-                        <label class="form-label"
-                               for="suspicious-text">
-
-                            Suspicious Message or Link
-
-                        </label>
-
-                        <textarea class="form-control"
-                                  id="suspicious-text"
-                                  name="suspicious-text"
-                                  rows="3"
-                                  maxlength="2000"
-                                  placeholder="Paste the suspicious message or link..."></textarea>
-
-                        <div class="d-flex justify-content-between gap-2 form-text">
-
-                            <span>
-                                Optional
-                            </span>
-
-                            <span class="character-count"
-                                  data-count-for="suspicious-text"
-                                  aria-live="polite">
-                                0 / 2000
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Screenshot -->
-                    <div class="col-12">
-
-                        <label class="form-label"
-                               for="report-screenshot">
-
-                            Upload Screenshot
-
-                        </label>
-
-                        <input class="form-control"
-                               type="file"
-                               id="report-screenshot"
-                               name="screenshot"
-                               accept="image/png,image/jpeg,image/webp">
-
-                        <div class="form-text">
-                            PNG, JPG, or WebP. Maximum file size: 10 MB.
-                        </div>
-
-                        <div class="invalid-feedback">
-                            Please select a supported image under 10 MB.
-                        </div>
-
-                    </div>
-
-
-                    <!-- STEP 3 -->
-                    <div class="col-12">
-
-                        <div class="form-section-heading compact">
-
-                            <span class="section-kicker">STEP 03</span>
-
-                            <h3>Source and Location</h3>
-
-                            <p>
-                                Tell us where the suspicious activity occurred.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Sender -->
-                    <div class="col-md-6">
-
-                        <label class="form-label" for="sender">
-                            Sender *
-                        </label>
-
-                        <input class="form-control"
-                               type="text"
-                               id="sender"
-                               name="sender"
-                               placeholder="Phone number or sender name"
-                               required>
-
-                        <div class="invalid-feedback">
-                            Please provide the sender's information.
-                        </div>
-
-                    </div>
-
-
-                    <!-- Date -->
-                    <div class="col-md-6">
-
-                        <label class="form-label" for="date-received">
-                            Date Received *
-                        </label>
-
-                        <input class="form-control"
-                               type="date"
-                               id="date-received"
-                               name="date-received"
-                               required>
-
-                        <div class="invalid-feedback">
-                            Please select a valid date.
-                        </div>
-
-                    </div>
-
-
-                    <!-- Email -->
-                    <div class="col-12">
-
-                        <label class="form-label" for="email-address">
-                            Email Address *
-                        </label>
-
-                        <input class="form-control"
-                               type="email"
-                               id="email-address"
-                               name="email"
-                               placeholder="you@example.com"
-                               required>
-
-                        <div class="invalid-feedback">
-                            Please provide a valid email address.
-                        </div>
-
-                    </div>
-
-
-                    <!-- Location -->
-                    <div class="col-12">
-
-                        <fieldset class="location-fieldset">
-
-                            <legend class="form-label">
-                                Incident Location *
-                            </legend>
-
-                            <div class="btn-group location-mode mb-3"
-                                 role="group">
-
-                                <input class="btn-check"
-                                       type="radio"
-                                       id="location-mode-text"
-                                       name="location-mode"
-                                       value="text"
-                                       checked>
-
-                                <label class="btn btn-outline-secondary"
-                                       for="location-mode-text">
-
-                                    Describe an Area
-
-                                </label>
-
-
-                                <input class="btn-check"
-                                       type="radio"
-                                       id="location-mode-map"
-                                       name="location-mode"
-                                       value="map">
-
-                                <label class="btn btn-outline-secondary"
-                                       for="location-mode-map">
-
-                                    Google Maps Pin
-
-                                </label>
-
-                            </div>
-
-
-                            <!-- Text Location -->
-                            <div id="location-text-panel">
-
-                                <label class="visually-hidden"
-                                       for="location-text">
-
-                                    Area or City
-
-                                </label>
-
-                                <input class="form-control"
-                                       type="text"
-                                       id="location-text"
-                                       name="location-text"
-                                       placeholder="Area, city, or nearby landmark"
-                                       required>
-
-                                <div class="invalid-feedback">
-                                    Please enter an approximate location.
+                        <div class="form-card">
+                            <h2>A. Issue Information</h2>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="category">Issue Category <span class="req">*</span></label>
+                                    <select class="form-select" id="category" name="category" required>
+                                        <option value="">Select a Category</option>
+                                        <option>Excessive Late-night Noise</option>
+                                        <option>Illegal Parking</option>
+                                        <option>Water Supply Interruption</option>
+                                        <option>Mosquito Breeding Site</option>
+                                        <option>Other</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select an issue category.</div>
                                 </div>
 
-                            </div>
-
-
-                            <!-- Map Location -->
-                            <div id="location-map-panel" hidden>
-
-                                <p class="form-text">
-                                    Paste a Google Maps link or coordinates.
-                                </p>
-
-                                <a class="btn btn-outline-secondary btn-sm mb-3"
-                                   href="https://www.google.com/maps"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-
-                                    Open Google Maps ↗
-
-                                </a>
-
-                                <input class="form-control"
-                                       type="text"
-                                       id="location-map"
-                                       name="location-map"
-                                       placeholder="14.5995, 120.9842"
-                                       disabled>
-
-                                <div class="invalid-feedback">
-                                    Enter a valid Google Maps link or coordinates.
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="severity">Severity Level <span class="req">*</span></label>
+                                    <select class="form-select" id="severity" name="severity" required>
+                                        <option value="">Select severity (Low / Medium / High)</option>
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a severity level.</div>
                                 </div>
 
-                            </div>
-
-                        </fieldset>
-
-                    </div>
-
-
-                    <!-- Consent -->
-                    <div class="col-12">
-
-                        <fieldset class="privacy-agreement">
-
-                            <legend class="form-label">
-                                Before You Submit
-                            </legend>
-
-                            <div class="form-check">
-
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       id="privacy-consent"
-                                       name="privacy-consent"
-                                       required>
-
-                                <label class="form-check-label"
-                                       for="privacy-consent">
-
-                                    I understand that this is a demonstration
-                                    website. My report is stored locally in
-                                    this browser and is not sent to an agency.
-
-                                </label>
-
-                                <div class="invalid-feedback">
-                                    Please acknowledge the demonstration notice.
+                                <div class="col-12">
+                                    <label class="form-label" for="description">Description <span class="req">*</span></label>
+                                    <textarea class="form-control" id="description" name="description" rows="4"
+                                              minlength="20" maxlength="500" required
+                                              placeholder="Describe the problem in detail... (20 - 500 characters)"></textarea>
+                                    <div class="d-flex justify-content-between gap-2 form-text">
+                                        <span>At least 20 characters.</span>
+                                        <span id="description-count" aria-live="polite">0 / 500</span>
+                                    </div>
+                                    <div class="invalid-feedback">Please describe the problem in at least 20 characters.</div>
                                 </div>
 
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="date-reported">Date Reported <span class="req">*</span></label>
+                                    <input class="form-control" type="date" id="date-reported" name="date-reported" required>
+                                    <div class="invalid-feedback">Please select a valid date that is not in the future.</div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="incident-time">Approximate Time <span class="req">*</span></label>
+                                    <input class="form-control" type="time" id="incident-time" name="incident-time" required>
+                                    <div class="invalid-feedback">Please enter the approximate time.</div>
+                                </div>
                             </div>
-
-                        </fieldset>
-
+                        </div>
                     </div>
 
+                    <!-- B. Location -->
+                    <div class="col-12 col-md-5">
+                        <div class="form-card">
+                            <h2>B. Location</h2>
+                            <div class="mb-3">
+                                <label class="form-label" for="address">Address / Purok / Street <span class="req">*</span></label>
+                                <input class="form-control" type="text" id="address" name="address" required
+                                       placeholder="Enter the location of the issue">
+                                <div class="invalid-feedback">Please enter the location of the issue.</div>
+                            </div>
+                            <div>
+                                <label class="form-label" for="landmark">Landmark (Optional)</label>
+                                <input class="form-control" type="text" id="landmark" name="landmark"
+                                       placeholder="Nearby landmark (e.g. school, store, park)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- C. Evidence and Reporter Information -->
+                    <div class="col-12 col-md-7">
+                        <div class="form-card">
+                            <h2>C. Evidence and Reporter Information</h2>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <span class="form-label d-block" id="photo-label">Photo Evidence (Optional)</span>
+                                    <input class="visually-hidden" type="file" id="photo" name="photo"
+                                           accept="image/png,image/jpeg">
+                                    <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                                         aria-labelledby="photo-label">
+                                        <img class="photo-preview" id="photo-preview" alt="Selected photo preview">
+                                        <i class="bi bi-upload" id="dropzone-icon"></i>
+                                        <span id="dropzone-text">Click to upload or drag and drop</span>
+                                        <small id="dropzone-hint">JPG, JPEG, or PNG (Max 5 MB)</small>
+                                        <span class="photo-name" id="photo-name"></span>
+                                    </div>
+                                    <div class="text-danger small mt-1" id="photo-error" hidden></div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="full-name">Full Name <span class="req">*</span></label>
+                                        <input class="form-control" type="text" id="full-name" name="full-name" required
+                                               autocomplete="name" placeholder="Enter your name">
+                                        <div class="invalid-feedback">Please enter your full name.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="email">Email Address <span class="req">*</span></label>
+                                        <input class="form-control" type="email" id="email" name="email" required
+                                               autocomplete="email" placeholder="Enter your email address">
+                                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label" for="contact">Contact Number (Optional)</label>
+                                        <input class="form-control" type="tel" id="contact" name="contact"
+                                               autocomplete="tel" inputmode="tel"
+                                               pattern="^(09|\+639)\d{9}$"
+                                               placeholder="Enter your contact number">
+                                        <div class="invalid-feedback">Use a valid mobile number, e.g. 09171234567.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Submit -->
-                    <div class="col-12">
-
-                        <button class="btn btn-primary report-submit"
-                                type="submit">
-
-                            Submit Report →
-
-                        </button>
-
-                        <p class="report-form-status small mt-3"
-                           id="report-form-status"
-                           role="status"
-                           aria-live="polite"
-                           hidden></p>
-
+                    <div class="col-12 text-md-end">
+                        <button class="btn btn-report" type="submit">Review Report</button>
                     </div>
-
                 </div>
-
             </form>
-
         </div>
-
     </main>
 
-
-    <!-- Footer -->
-    <footer class="site-footer py-4">
-
-        <div class="container">
-
-            <p class="mb-0">
-                © 2026 Suri | Citizen Reporting Website
-            </p>
-
-            <p class="small mb-0">
-                Web Development Prototype — Demonstration Only
-            </p>
-
+    <!-- Review modal -->
+    <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="review-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="review-title">Review your report</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <dl class="review-list" id="review-list"></dl>
+                    <p class="form-text mb-0">This is a demonstration website. Your report is stored in this browser only.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark-custom" data-bs-dismiss="modal">Edit</button>
+                    <button type="button" class="btn btn-report" id="confirm-submit" style="min-width:0">Submit Report</button>
+                </div>
+            </div>
         </div>
+    </div>
 
+    <footer>
+        <div class="container-fluid">
+            <p class="mb-0">© 2026 Barangay Report | Citizen Reporting Website</p>
+        </div>
     </footer>
 
-
-    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            const form = document.getElementById('report-form');
+            const description = document.getElementById('description');
+            const count = document.getElementById('description-count');
+            const dateInput = document.getElementById('date-reported');
+            const photoInput = document.getElementById('photo');
+            const dropzone = document.getElementById('dropzone');
+            const preview = document.getElementById('photo-preview');
+            const photoName = document.getElementById('photo-name');
+            const photoError = document.getElementById('photo-error');
+            const icon = document.getElementById('dropzone-icon');
+            const reviewList = document.getElementById('review-list');
+            const modalEl = document.getElementById('review-modal');
+            const modal = new bootstrap.Modal(modalEl);
 
-    <script src="scripts/menu.js"></script>
-    <script src="scripts/report.js"></script>
+            const MAX_BYTES = 5 * 1024 * 1024;
+            const TYPES = ['image/jpeg', 'image/png'];
 
+            // Today's date as the latest allowed date (local time)
+            const now = new Date();
+            const today = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0');
+            dateInput.max = today;
+
+            // Character counter
+            function updateCount() { count.textContent = description.value.length + ' / 500'; }
+            description.addEventListener('input', updateCount);
+            updateCount();
+
+            // Photo upload
+            function setPhotoError(msg) {
+                photoError.hidden = !msg;
+                photoError.textContent = msg || '';
+                dropzone.classList.toggle('is-invalid', !!msg);
+            }
+
+            function clearPhoto() {
+                photoInput.value = '';
+                preview.style.display = 'none';
+                preview.removeAttribute('src');
+                icon.style.display = '';
+                photoName.textContent = '';
+            }
+
+            function handleFile(file) {
+                if (!file) { clearPhoto(); setPhotoError(''); return false; }
+                if (!TYPES.includes(file.type)) {
+                    clearPhoto();
+                    setPhotoError('Please choose a JPG, JPEG, or PNG image.');
+                    return false;
+                }
+                if (file.size > MAX_BYTES) {
+                    clearPhoto();
+                    setPhotoError('The image is larger than 5 MB. Please choose a smaller one.');
+                    return false;
+                }
+                setPhotoError('');
+                const url = URL.createObjectURL(file);
+                preview.onload = function () { URL.revokeObjectURL(url); };
+                preview.src = url;
+                preview.style.display = 'block';
+                icon.style.display = 'none';
+                photoName.textContent = file.name;
+                return true;
+            }
+
+            dropzone.addEventListener('click', function () { photoInput.click(); });
+            dropzone.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); photoInput.click(); }
+            });
+            photoInput.addEventListener('change', function () { handleFile(photoInput.files[0]); });
+
+            ['dragenter', 'dragover'].forEach(function (evt) {
+                dropzone.addEventListener(evt, function (e) {
+                    e.preventDefault();
+                    dropzone.classList.add('is-dragover');
+                });
+            });
+            ['dragleave', 'drop'].forEach(function (evt) {
+                dropzone.addEventListener(evt, function (e) {
+                    e.preventDefault();
+                    dropzone.classList.remove('is-dragover');
+                });
+            });
+            dropzone.addEventListener('drop', function (e) {
+                const file = e.dataTransfer.files[0];
+                if (!file) return;
+                try {
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    photoInput.files = dt.files;
+                } catch (err) { /* older browsers: validation still runs on the dropped file */ }
+                handleFile(file);
+            });
+
+            // Collect form values
+            function values() {
+                const v = function (id) { return document.getElementById(id).value.trim(); };
+                const file = photoInput.files[0];
+                return {
+                    category: v('category'),
+                    severity: v('severity'),
+                    description: v('description'),
+                    dateReported: v('date-reported'),
+                    time: v('incident-time'),
+                    address: v('address'),
+                    landmark: v('landmark'),
+                    photoName: file ? file.name : '',
+                    fullName: v('full-name'),
+                    email: v('email'),
+                    contact: v('contact')
+                };
+            }
+
+            function formatDate(iso) {
+                const d = new Date(iso + 'T00:00:00');
+                return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            function formatTime(t) {
+                const parts = t.split(':');
+                const h = parseInt(parts[0], 10);
+                return ((h % 12) || 12) + ':' + parts[1] + ' ' + (h >= 12 ? 'PM' : 'AM');
+            }
+
+            // Review step
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const dateOk = dateInput.value && dateInput.value <= today;
+                dateInput.setCustomValidity(dateOk ? '' : 'Invalid date');
+
+                const photoOk = photoInput.files.length === 0 || handleFile(photoInput.files[0]);
+
+                form.classList.add('was-validated');
+                if (!form.checkValidity() || !photoOk) {
+                    const firstInvalid = form.querySelector(':invalid');
+                    if (firstInvalid) firstInvalid.focus();
+                    return;
+                }
+
+                const d = values();
+                const rows = [
+                    ['Issue Category', d.category],
+                    ['Severity Level', d.severity],
+                    ['Description', d.description],
+                    ['Date and Time', formatDate(d.dateReported) + ', ' + formatTime(d.time)],
+                    ['Address / Purok / Street', d.address],
+                    ['Landmark', d.landmark || 'None'],
+                    ['Photo Evidence', d.photoName || 'None'],
+                    ['Full Name', d.fullName],
+                    ['Email Address', d.email],
+                    ['Contact Number', d.contact || 'None']
+                ];
+                reviewList.textContent = '';
+                rows.forEach(function (r) {
+                    const dt = document.createElement('dt');
+                    const dd = document.createElement('dd');
+                    dt.textContent = r[0];
+                    dd.textContent = r[1];
+                    reviewList.append(dt, dd);
+                });
+                modal.show();
+            });
+
+            dateInput.addEventListener('input', function () { dateInput.setCustomValidity(''); });
+
+            // Confirm and save
+            document.getElementById('confirm-submit').addEventListener('click', function () {
+                const d = values();
+                const year = new Date().getFullYear();
+                let reports = [];
+                try {
+                    reports = JSON.parse(localStorage.getItem('barangayReports') || '[]');
+                    if (!Array.isArray(reports)) reports = [];
+                } catch (err) { reports = []; }
+
+                const ref = 'BR-' + year + '-' + String(reports.length + 123).padStart(5, '0');
+
+                d.reference = ref;
+                d.status = 'Submitted';
+                d.submittedAt = new Date().toISOString();
+                reports.push(d);
+                try {
+                    localStorage.setItem('barangayReports', JSON.stringify(reports));
+                } catch (err) { /* storage unavailable: demo continues without saving */ }
+
+                modal.hide();
+                document.getElementById('success-ref').textContent = ref;
+                document.getElementById('success-section').hidden = false;
+                document.getElementById('form-section').hidden = true;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+    </script>
 </body>
 </html>

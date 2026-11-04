@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Report | FAQ</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #171717;
+            --muted: #555;
+            --border: #d5d5d5;
+            --soft: #f7f7f7;
+            --peach: #fff0e9;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: #fff;
+            line-height: 1.45;
+        }
+
+        /* Navigation (same as home page) */
+        .site-header {
+            background: #fff;
+            border: 1px solid #d6d6d6;
+            border-radius: 13px;
+            margin: 10px 10px 0;
+            min-height: 58px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .navbar-brand { font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+        .navbar-brand:hover { color: var(--ink); }
+        .navbar-nav { gap: 22px; }
+        .nav-link {
+            color: #111;
+            font-weight: 600;
+            font-size: .9rem;
+            padding: 18px 3px 13px !important;
+        }
+        .nav-link.active { border-bottom: 3px solid #111; }
+
+        /* Heading */
+        .page-heading { margin: 18px 10px 0; }
+        .page-title { font-size: clamp(1.65rem, 3vw, 2.25rem); font-weight: 800; line-height: 1.12; margin: 0 0 6px; }
+        .page-subtitle { font-size: .95rem; margin: 0 0 14px; color: var(--muted); }
+
+        .faq-wrap { margin: 0 10px 18px; }
+
+        /* Category list */
+        .category-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .category-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid #e3e3e3;
+            border-radius: 8px 8px 0 0;
+            padding: 9px 12px;
+            font-weight: 700;
+            font-size: .92rem;
+            color: #111;
+        }
+        .category-btn:hover { background: var(--soft); }
+        .category-btn.active {
+            background: #efefef;
+            border-bottom-color: transparent;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,.08);
+        }
+        .category-btn:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+
+        /* Accordion */
+        .faq-accordion .accordion-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,.05);
+        }
+        .faq-accordion .accordion-button {
+            font-size: .93rem;
+            font-weight: 400;
+            color: #111;
+            background: #fff;
+            padding: 10px 14px;
+            box-shadow: none;
+        }
+        .faq-accordion .accordion-button:not(.collapsed) {
+            background: var(--soft);
+            font-weight: 700;
+            color: #111;
+        }
+        .faq-accordion .accordion-button:focus {
+            box-shadow: 0 0 0 .2rem rgba(17,17,17,.12);
+            border-color: #111;
+        }
+        .faq-accordion .accordion-body { font-size: .9rem; color: #333; }
+        .faq-accordion .accordion-body p:last-child { margin-bottom: 0; }
+
+        .no-results { font-size: .9rem; color: var(--muted); }
+
+        /* Help card */
+        .help-card {
+            margin: 22px 10px 28px;
+            padding: 20px 22px;
+            background: var(--peach);
+            border: 1px solid #ead4ca;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .help-card h2 { font-size: 1.2rem; font-weight: 800; margin: 0 0 4px; }
+        .help-card p { font-size: .9rem; margin: 0; }
+
+        .btn-dark-custom {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+            border-radius: 8px;
+            font-weight: 700;
+            padding: 10px 28px;
+            white-space: nowrap;
+        }
+        .btn-dark-custom:hover, .btn-dark-custom:focus { background: #333; color: #fff; }
+
+        .modal-content { border-radius: 13px; border: 1px solid #ddd; }
+        .modal-title { font-weight: 800; font-size: 1.25rem; }
+        .contact-list { list-style: none; padding: 0; margin: 0; }
+        .contact-list li { display: flex; gap: 12px; margin-bottom: 12px; font-size: .92rem; }
+        .contact-list i { font-size: 1.2rem; }
+
+        footer {
+            padding: 18px 10px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .site-header { margin: 8px 8px 0; }
+            .navbar { padding: 9px 12px; }
+            .navbar-brand { font-size: 1.1rem; }
+            .navbar-toggler { border: 0; padding: 2px; }
+            .navbar-toggler:focus { box-shadow: none; }
+            .page-heading { margin: 14px 8px 0; }
+            .page-title { font-size: 1.45rem; }
+            .page-subtitle { font-size: .88rem; margin-bottom: 10px; }
+            .faq-wrap { margin: 0 8px 14px; }
+
+            /* Categories become a scrollable row of pills */
+            .category-list {
+                display: flex;
+                gap: 6px;
+                overflow-x: auto;
+                padding-bottom: 6px;
+            }
+            .category-btn {
+                width: auto;
+                white-space: nowrap;
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 6px 14px;
+                font-size: .82rem;
+            }
+            .category-btn.active { background: #111; color: #fff; border-color: #111; box-shadow: none; border-radius: 20px; }
+
+            .faq-accordion .accordion-button { font-size: .85rem; padding: 9px 12px; }
+
+            .help-card {
+                margin: 16px 8px 20px;
+                padding: 14px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .help-card h2 { font-size: 1.05rem; }
+            .help-card .btn-dark-custom { width: 100%; }
+            footer { padding: 14px 8px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg site-header sticky-top">
+        <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand" href="index.html">Barangay Report</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="track.html">Track Report</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="faq.html" aria-current="page">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Heading -->
+    <section class="page-heading">
+        <div class="container-fluid px-0 px-md-2">
+            <h1 class="page-title">Frequently Asked Questions</h1>
+            <p class="page-subtitle">Find answers to common questions about reporting community issues.</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <main class="faq-wrap">
+        <div class="container-fluid px-0 px-md-2">
+            <div class="row g-3 g-md-4">
+                <div class="col-12 col-md-3 col-lg-2">
+                    <ul class="category-list" id="category-list" aria-label="FAQ categories"></ul>
+                </div>
+                <div class="col-12 col-md-9 col-lg-10">
+                    <div class="accordion faq-accordion" id="faq-accordion"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Still need help -->
+    <aside class="help-card" aria-labelledby="help-title">
+        <div>
+            <h2 id="help-title">Still Need Help?</h2>
+            <p>Contact the barangay office or visit us in person.</p>
+        </div>
+        <button type="button" class="btn btn-dark-custom" data-bs-toggle="modal" data-bs-target="#contact-modal">
+            Contact Information
+        </button>
+    </aside>
+
+    <!-- Contact modal (replace the placeholder details with your barangay's) -->
+    <div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="contact-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="contact-title">Barangay Office</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="contact-list">
+                        <li><i class="bi bi-geo-alt"></i><span>Barangay Hall, Riverside Street, Purok 1</span></li>
+                        <li><i class="bi bi-telephone"></i><span>(02) 8123 4567</span></li>
+                        <li><i class="bi bi-envelope"></i><span>barangay.office@example.com</span></li>
+                        <li><i class="bi bi-clock"></i><span>Monday to Friday, 8:00 AM – 5:00 PM</span></li>
+                    </ul>
+                    <p class="small text-secondary mb-0">These are sample details for this demonstration website.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark-custom" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container-fluid">
+            <p class="mb-0">© 2026 Barangay Report | Citizen Reporting Website</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            const FAQ = {
+                'General': [
+                    ['What is Barangay Report?', 'Barangay Report is a website where residents can report community issues such as noise, illegal parking, water supply interruptions, and mosquito breeding sites, and follow the progress of their report online.'],
+                    ['What kind of issues can I report?', 'You can report excessive late-night noise, illegal parking, water supply interruptions, and mosquito breeding sites. If your concern is not listed, choose "Other" and describe it in the form.'],
+                    ['Do I need to create an account to submit a report?', 'No. You do not need an account. You only need to provide your full name and email address when you submit a report.'],
+                    ['Is photo evidence required?', 'No. A photo is optional, but it helps barangay personnel understand and verify the issue faster.'],
+                    ['How do I track my report?', 'Go to the Track Report page and enter the reference number you received after submitting, for example BR-2026-00123.'],
+                    ['What do the status labels mean?', 'Submitted means your report was received. Under Review means personnel are checking it. In Progress means action is being taken. Resolved means the issue has been addressed.'],
+                    ['How long does it take to resolve a report?', 'It depends on the type and severity of the issue. Urgent concerns are prioritized, and you can follow the status on the Track Report page.'],
+                    ['What if I entered the wrong information?', 'Contact the barangay office with your reference number so personnel can help correct your report. You can also submit a new report with the right details.']
+                ],
+                'Reporting': [
+                    ['How do I submit a report?', 'Open the Report page, fill in the issue information, location, and your details, then select Review Report. Check your entries and select Submit Report.'],
+                    ['What do the severity levels mean?', 'Low is a minor or occasional concern. Medium is a recurring problem that affects neighbors. High is urgent or affects the safety or health of many people.'],
+                    ['What should I write in the description?', 'Explain what is happening, how often it occurs, and who or what is affected. Use between 20 and 500 characters.'],
+                    ['Which location details should I give?', 'Enter the address, purok, or street where the issue is happening. Adding a nearby landmark such as a school, store, or park is optional but helpful.']
+                ],
+                'Evidence': [
+                    ['What photo formats can I upload?', 'You can upload JPG, JPEG, or PNG images. Each file must be 5 MB or smaller.'],
+                    ['What makes a good photo?', 'Take a clear photo that shows the problem and its surroundings, such as the vehicle blocking a driveway or standing water. Avoid including faces or personal information when possible.'],
+                    ['Can I submit a report without a photo?', 'Yes. Photo evidence is optional. A detailed description and accurate location are still needed.']
+                ],
+                'Tracking': [
+                    ['Where do I find my reference number?', 'The reference number is shown right after you submit your report. Keep a copy of it, since you need it to track your report.'],
+                    ['I cannot find my report. What should I do?', 'Check that the reference number is typed exactly as shown, including dashes. If it still does not work, contact the barangay office.'],
+                    ['Will I be notified of updates?', 'Barangay personnel may contact you using the email address or contact number you provided. You can also check the Track Report page at any time.']
+                ],
+                'Status & Actions': [
+                    ['What happens after I submit a report?', 'Barangay personnel check your report and assign it to the right person or office. The status changes as your report moves forward.'],
+                    ['What actions can the barangay take?', 'Depending on the issue, personnel may inspect the area, talk to the people involved, issue a reminder or warning, or coordinate with the right office or utility provider.'],
+                    ['What if my report is not resolved?', 'Contact the barangay office with your reference number to follow up on your report.']
+                ],
+                'Others': [
+                    ['Is my personal information safe?', 'Your details are used only to review your report. Avoid putting sensitive information, such as passwords or ID numbers, in the description.'],
+                    ['Can I report emergencies here?', 'No. For fires, crimes in progress, or medical emergencies, call the national emergency hotline 911 or your local emergency responders right away.'],
+                    ['Is this website an official service?', 'This is a demonstration website for a web development project. Reports are stored only in your browser and are not sent to a barangay office.']
+                ]
+            };
+
+            const list = document.getElementById('category-list');
+            const accordion = document.getElementById('faq-accordion');
+            const names = Object.keys(FAQ);
+            let uid = 0;
+
+            function showCategory(name) {
+                list.querySelectorAll('.category-btn').forEach(function (b) {
+                    const on = b.dataset.category === name;
+                    b.classList.toggle('active', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+
+                accordion.textContent = '';
+                FAQ[name].forEach(function (qa) {
+                    uid += 1;
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+
+                    const h = document.createElement('h2');
+                    h.className = 'accordion-header';
+
+                    const btn = document.createElement('button');
+                    btn.className = 'accordion-button collapsed';
+                    btn.type = 'button';
+                    btn.setAttribute('data-bs-toggle', 'collapse');
+                    btn.setAttribute('data-bs-target', '#faq-' + uid);
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.setAttribute('aria-controls', 'faq-' + uid);
+                    btn.textContent = qa[0];
+                    h.appendChild(btn);
+
+                    const panel = document.createElement('div');
+                    panel.className = 'accordion-collapse collapse';
+                    panel.id = 'faq-' + uid;
+                    panel.setAttribute('data-bs-parent', '#faq-accordion');
+
+                    const body = document.createElement('div');
+                    body.className = 'accordion-body';
+                    const p = document.createElement('p');
+                    p.textContent = qa[1];
+                    body.appendChild(p);
+                    panel.appendChild(body);
+
+                    item.append(h, panel);
+                    accordion.appendChild(item);
+                });
+            }
+
+            names.forEach(function (name, i) {
+                const li = document.createElement('li');
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'category-btn';
+                b.dataset.category = name;
+                b.textContent = name;
+                b.addEventListener('click', function () { showCategory(name); });
+                li.appendChild(b);
+                list.appendChild(li);
+            });
+
+            showCategory(names[0]);
+        })();
+    </script>
+</body>
+</html>
